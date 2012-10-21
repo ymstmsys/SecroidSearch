@@ -1,0 +1,17 @@
+<resources>
+
+    <string name="app_name">SecroidSearch</string>
+    <string name="icon_image">Icon image</string>
+    <string name="ok">OK</string>
+    <string name="error">Error</string>
+    <string name="network_error_message">Network is not connected.</string>
+    <string name="secroid_error_message">There is not app info at Secroid.</string>
+    <string name="store_error_message">Could not open Play Store.</string>
+    <array name="actions">
+        <item>View Secroid</item>
+        <item>View Play Store</item>
+        <item>View App Info</item>
+        <item>Uninstall</item>
+    </array>
+
+</resources>
