@@ -80,7 +80,6 @@ public class MainAdapter extends BaseAdapter {
         if (iconReference != null && iconReference.get() != null) {
             iconDrawable = iconReference.get();
         } else {
-            System.out.println(app.getPackageName());
             iconDrawable = PackageLogic.getAppIcon(context, app.getPackageName());
             iconMap.put(app.getPackageName(), new WeakReference<Drawable>(iconDrawable));
         }
