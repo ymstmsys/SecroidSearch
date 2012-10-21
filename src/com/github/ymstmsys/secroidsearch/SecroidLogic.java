@@ -15,6 +15,7 @@
  */
 package com.github.ymstmsys.secroidsearch;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -42,7 +43,7 @@ public class SecroidLogic {
             @Override
             protected Object doInBackground(Object... params) {
                 try {
-                    return internalGetAppUrl(app);
+                    return getAppUrl(app.getPackageName(), app.getAppName());
                 } catch (RuntimeException e) {
                     return e;
                 }
@@ -62,9 +63,25 @@ public class SecroidLogic {
         }
     }
 
-    private static String internalGetAppUrl(App app) {
+    private static String getAppUrl(String packageName, String appName) {
+        String url = internalGetAppUrl(packageName, appName);
+
+        if (url != null) {
+            return url;
+        }
+
+        String storeAppName = internalGetStoreAppName(packageName);
+
+        if (storeAppName != null && !storeAppName.equals(appName)) {
+            url = internalGetAppUrl(packageName, storeAppName);
+        }
+
+        return url;
+    }
+
+    private static String internalGetAppUrl(String packageName, String appName) {
         try {
-            URL url = new URL("http://secroid.jp/cgi-bin/s.cgi?search=" + URLEncoder.encode(app.getAppName(), "UTF-8"));
+            URL url = new URL("http://secroid.jp/cgi-bin/s.cgi?search=" + URLEncoder.encode(appName, "UTF-8"));
 
             Source source = new Source(url);
 
@@ -79,7 +96,7 @@ public class SecroidLogic {
                 Element aElement = itemElement.getFirstElement("a");
                 String href = aElement.getAttributeValue("href");
 
-                if (href.endsWith("/" + app.getPackageName() + ".html")) {
+                if (href.endsWith("/" + packageName + ".html")) {
                     return new URL(url, href).toString();
                 }
 
@@ -87,6 +104,26 @@ public class SecroidLogic {
             }
         } catch (IOException e) {
             throw new NetworkException(e);
+        }
+
+        return null;
+    }
+
+    private static String internalGetStoreAppName(String packageName) {
+        try {
+            URL url = new URL("https://play.google.com/store/apps/details?hl=ja&id=" + packageName);
+
+            Source source = new Source(url);
+
+            Element element = source.getFirstElement("h1");
+
+            if (element != null) {
+                return element.getTextExtractor().toString();
+            }
+        } catch (FileNotFoundException e) {
+            return null;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
         return null;
