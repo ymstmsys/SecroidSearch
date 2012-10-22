@@ -28,6 +28,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 
+/**
+ * @author ymstmsys
+ */
 public class SecroidLogic {
 
     public static String getAppUrl(Context context, final App app) {

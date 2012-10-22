@@ -29,6 +29,9 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 
+/**
+ * @author ymstmsys
+ */
 public class PackageLogic {
 
     @SuppressLint("NewApi")

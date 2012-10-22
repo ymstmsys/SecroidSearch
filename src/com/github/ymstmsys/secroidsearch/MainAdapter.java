@@ -30,6 +30,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * @author ymstmsys
+ */
 public class MainAdapter extends BaseAdapter {
 
     Context context;

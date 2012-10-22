@@ -17,6 +17,9 @@ package com.github.ymstmsys.secroidsearch;
 
 import java.io.Serializable;
 
+/**
+ * @author ymstmsys
+ */
 public class App implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -15,6 +15,9 @@
  */
 package com.github.ymstmsys.secroidsearch;
 
+/**
+ * @author ymstmsys
+ */
 public class NetworkException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
