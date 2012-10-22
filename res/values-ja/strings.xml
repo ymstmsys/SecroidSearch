@@ -4,9 +4,8 @@
     <string name="icon_image">Iconイメージ</string>
     <string name="ok">OK</string>
     <string name="error">エラー</string>
-    <string name="network_error_message">ネットワークが接続されていません。</string>
-    <string name="secroid_error_message">Secroidにアプリ情報がありません。</string>
     <string name="store_error_message">Playストアを開けません。</string>
+    <string name="menu_description">アプリ説明</string>
 
     <array name="actions">
         <item>Secroidを表示</item>

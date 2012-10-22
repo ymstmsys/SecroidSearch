@@ -26,6 +26,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
@@ -143,6 +145,28 @@ public class MainActivity extends ListActivity {
         if (requestCode == 1) {
             refreshListAdapter();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_description) {
+            Uri uri = Uri.parse("market://details?id=com.github.ymstmsys.secroidsearch");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            try {
+                startActivity(intent);
+            } catch (ActivityNotFoundException e) {
+                Bundle bundle = new Bundle();
+                bundle.putString("errorMessage", getString(R.string.store_error_message));
+                showDialog(1, bundle);
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

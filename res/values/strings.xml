@@ -5,6 +5,7 @@
     <string name="ok">OK</string>
     <string name="error">Error</string>
     <string name="store_error_message">Could not open Play Store.</string>
+    <string name="menu_description">Description</string>
     <array name="actions">
         <item>View Secroid</item>
         <item>View Play Store</item>
