@@ -60,25 +60,25 @@ public class MainActivity extends ListActivity {
     @Override
     protected void onListItemClick(ListView listView, View view, int position, long id) {
         MainAdapter adapter = MainAdapter.class.cast(getListAdapter());
-        final App app = App.class.cast(adapter.getItem(position));
+        final String packageName = App.class.cast(adapter.getItem(position)).getPackageName();
 
         DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 // View Secroid
                 if (which == 0) {
-                    viewSecroid(app);
+                    viewSecroid(packageName);
                 }
                 // View Store
                 else if (which == 1) {
-                    viewStore(app);
+                    viewStore(packageName);
                 }
                 // View Info
                 else if (which == 2) {
-                    viewInfo(app);
+                    viewInfo(packageName);
                 }
                 // Uninstall
                 else if (which == 3) {
-                    uninstall(app);
+                    uninstall(packageName);
                 }
             }
         };
@@ -98,12 +98,12 @@ public class MainActivity extends ListActivity {
         return null;
     }
 
-    protected void viewSecroid(App app) {
+    protected void viewSecroid(String packageName) {
         // get secroid app url
         String appUrl = null;
         String errorMessage = null;
         try {
-            appUrl = SecroidLogic.getAppUrl(this, app);
+            appUrl = SecroidLogic.getAppUrl(packageName);
             if (appUrl == null) {
                 errorMessage = getString(R.string.secroid_error_message);
             }
@@ -127,8 +127,8 @@ public class MainActivity extends ListActivity {
         startActivity(intent);
     }
 
-    protected void viewStore(App app) {
-        Uri uri = Uri.parse("market://details?id=" + app.getPackageName());
+    protected void viewStore(String packageName) {
+        Uri uri = Uri.parse("market://details?id=" + packageName);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         try {
             startActivity(intent);
@@ -139,21 +139,21 @@ public class MainActivity extends ListActivity {
         }
     }
 
-    protected void viewInfo(App app) {
+    protected void viewInfo(String packageName) {
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.FROYO) {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setClassName("com.android.settings", "com.android.settings.InstalledAppDetails");
-            intent.putExtra("pkg", app.getPackageName());
+            intent.putExtra("pkg", packageName);
             startActivity(intent);
         } else {
-            Uri uri = Uri.fromParts("package", app.getPackageName(), null);
+            Uri uri = Uri.fromParts("package", packageName, null);
             Intent intent = new Intent("android.settings.APPLICATION_DETAILS_SETTINGS", uri);
             startActivity(intent);
         }
     }
 
-    protected void uninstall(App app) {
-        Uri uri = Uri.fromParts("package", app.getPackageName(), null);
+    protected void uninstall(String packageName) {
+        Uri uri = Uri.fromParts("package", packageName, null);
         Intent intent = new Intent(Intent.ACTION_DELETE, uri);
         startActivityForResult(intent, 1);
     }
