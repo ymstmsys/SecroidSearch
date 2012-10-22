@@ -26,7 +26,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
@@ -100,26 +99,7 @@ public class MainActivity extends ListActivity {
 
     protected void viewSecroid(String packageName) {
         // get secroid app url
-        String appUrl = null;
-        String errorMessage = null;
-        try {
-            appUrl = SecroidLogic.getAppUrl(packageName);
-            if (appUrl == null) {
-                errorMessage = getString(R.string.secroid_error_message);
-            }
-        } catch (NetworkException e) {
-            errorMessage = getString(R.string.network_error_message);
-        } catch (RuntimeException e) {
-            Log.e("SecroidSearch", e.getMessage(), e);
-            throw e;
-        }
-
-        if (errorMessage != null) {
-            Bundle bundle = new Bundle();
-            bundle.putString("errorMessage", errorMessage);
-            showDialog(1, bundle);
-            return;
-        }
+        String appUrl = SecroidLogic.getAppUrl(packageName);
 
         // send intent
         Uri uri = Uri.parse(appUrl);
