@@ -8,7 +8,7 @@
     <string name="menu_description">アプリ説明</string>
 
     <array name="actions">
-        <item>Secroidを表示</item>
+        <item>secroidを表示</item>
         <item>Playストアを表示</item>
         <item>アプリ情報を表示</item>
         <item>アンインストール</item>

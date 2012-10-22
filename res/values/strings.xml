@@ -7,7 +7,7 @@
     <string name="store_error_message">Could not open Play Store.</string>
     <string name="menu_description">Description</string>
     <array name="actions">
-        <item>View Secroid</item>
+        <item>View secroid</item>
         <item>View Play Store</item>
         <item>View App Info</item>
         <item>Uninstall</item>
