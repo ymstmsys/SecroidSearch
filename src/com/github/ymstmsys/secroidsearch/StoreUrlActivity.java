@@ -15,6 +15,7 @@
  */
 package com.github.ymstmsys.secroidsearch;
 
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -63,7 +64,8 @@ public class StoreUrlActivity extends Activity {
 
     protected void viewSecroid(String packageName) {
         // get secroid app url
-        String appUrl = SecroidLogic.getAppUrl(packageName);
+        Locale locale = getResources().getConfiguration().locale;
+        String appUrl = SecroidLogic.getAppUrl(packageName, locale);
 
         // send intent
         Uri uri = Uri.parse(appUrl);

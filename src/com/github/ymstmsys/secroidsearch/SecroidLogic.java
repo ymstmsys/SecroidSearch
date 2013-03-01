@@ -15,12 +15,14 @@
  */
 package com.github.ymstmsys.secroidsearch;
 
+import java.util.Locale;
+
 /**
  * @author ymstmsys
  */
 public class SecroidLogic {
 
-    public static String getAppUrl(String packageName) {
+    public static String getAppUrl(String packageName, Locale locale) {
         // FIXME non-disclosure code
         return "dummy";
     }
