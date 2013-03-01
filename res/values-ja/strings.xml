@@ -7,7 +7,7 @@
     <string name="store_error_message">Playストアを開けません。</string>
     <string name="menu_sort_lastUpdateTime">更新日時で並べ替え</string>
     <string name="menu_sort_appName">アプリ名で並べ替え</string>
-    <string name="menu_description">アプリについて</string>
+    <string name="menu_description">このアプリについて</string>
 
     <array name="actions">
         <item>secroidを表示</item>
