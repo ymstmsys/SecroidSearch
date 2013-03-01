@@ -28,9 +28,12 @@ public class App implements Serializable {
 
     private String appName;
 
-    public App(String packageName, String appName) {
+    private long lastUpdateTime;
+
+    public App(String packageName, String appName, long lastUpdateTime) {
         this.packageName = packageName;
         this.appName = appName;
+        this.lastUpdateTime = lastUpdateTime;
     }
 
     public String getPackageName() {
@@ -39,6 +42,10 @@ public class App implements Serializable {
 
     public String getAppName() {
         return appName;
+    }
+
+    public long getLastUpdateTime() {
+        return lastUpdateTime;
     }
 
 }

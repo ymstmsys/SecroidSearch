@@ -17,10 +17,7 @@ package com.github.ymstmsys.secroidsearch;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -36,7 +33,7 @@ public class PackageLogic {
 
     @SuppressLint("NewApi")
     public static List<App> listApps(Context context) {
-        Map<Long, App> appMap = new HashMap<Long, App>();
+        List<App> apps = new ArrayList<App>();
 
         // get packageName
         PackageManager packageManager = context.getPackageManager();
@@ -57,18 +54,7 @@ public class PackageLogic {
             String packageName = packageInfo.packageName;
             String appName = packageManager.getApplicationLabel(packageInfo.applicationInfo).toString();
 
-            appMap.put(lastUpdateTime, new App(packageName, appName));
-        }
-
-        // sort by lastUpdateTime
-        List<Long> lastUpdateTimes = new ArrayList<Long>(appMap.keySet());
-        Collections.sort(lastUpdateTimes);
-        Collections.reverse(lastUpdateTimes);
-
-        // take app order by lastUpdatetime
-        List<App> apps = new ArrayList<App>();
-        for (Long lastUpdateTime : lastUpdateTimes) {
-            apps.add(appMap.get(lastUpdateTime));
+            apps.add(new App(packageName, appName, lastUpdateTime));
         }
 
         return apps;

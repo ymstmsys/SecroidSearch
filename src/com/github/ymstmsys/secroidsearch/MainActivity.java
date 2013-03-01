@@ -23,9 +23,12 @@ import android.app.ListActivity;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,7 +58,9 @@ public class MainActivity extends ListActivity {
         List<App> apps = PackageLogic.listApps(this);
         MainAdapter adapter = MainAdapter.class.cast(getListAdapter());
         adapter.setApps(apps);
-        adapter.notifyDataSetChanged();
+
+        SortType sortType = getSortTypePreference();
+        adapter.sort(sortType);
     }
 
     @Override
@@ -148,14 +153,42 @@ public class MainActivity extends ListActivity {
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        SortType sortType = getSortTypePreference();
+
+        if (sortType == SortType.LAST_UPDATE_TIME) {
+            menu.findItem(R.id.menu_sort_lastUpdateTime).setVisible(false);
+            menu.findItem(R.id.menu_sort_appName).setVisible(true);
+        } else if (sortType == SortType.APP_NAME) {
+            menu.findItem(R.id.menu_sort_lastUpdateTime).setVisible(true);
+            menu.findItem(R.id.menu_sort_appName).setVisible(false);
+        }
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_main, menu);
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.menu_description) {
+        // sort by lastUpdateTime
+        if (item.getItemId() == R.id.menu_sort_lastUpdateTime) {
+            MainAdapter adapter = MainAdapter.class.cast(getListAdapter());
+            adapter.sort(SortType.LAST_UPDATE_TIME);
+            putSortTypePreference(SortType.LAST_UPDATE_TIME);
+        }
+        // sort by appName
+        else if (item.getItemId() == R.id.menu_sort_appName) {
+            MainAdapter adapter = MainAdapter.class.cast(getListAdapter());
+            adapter.sort(SortType.APP_NAME);
+            putSortTypePreference(SortType.APP_NAME);
+        }
+        // show description
+        else if (item.getItemId() == R.id.menu_description) {
             Uri uri = Uri.parse("market://details?id=com.github.ymstmsys.secroidsearch");
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             try {
@@ -167,6 +200,28 @@ public class MainActivity extends ListActivity {
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    protected SortType getSortTypePreference() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String sortType = preferences.getString("sortType", null);
+
+        if (sortType == null) {
+            return SortType.LAST_UPDATE_TIME;
+        }
+
+        try {
+            return SortType.valueOf(sortType);
+        } catch (IllegalArgumentException e) {
+            return SortType.LAST_UPDATE_TIME;
+        }
+    }
+
+    protected void putSortTypePreference(SortType sortType) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Editor editor = preferences.edit();
+        editor.putString("sortType", sortType.name());
+        editor.commit();
     }
 
 }

@@ -5,11 +5,14 @@
     <string name="ok">OK</string>
     <string name="error">Error</string>
     <string name="store_error_message">Could not open Play Store.</string>
+    <string name="menu_sort_lastUpdateTime">Sort by recent update</string>
+    <string name="menu_sort_appName">Sort by app name</string>
     <string name="menu_description">Description</string>
-    <array name="actions">
-        <item>View secroid</item>
-        <item>View Play Store</item>
-        <item>View App Info</item>
+
+    <array name="actions">
+        <item>See on secroid</item>
+        <item>See on Play store</item>
+        <item>See app info</item>
         <item>Uninstall</item>
     </array>
 

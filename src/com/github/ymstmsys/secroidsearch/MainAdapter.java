@@ -17,6 +17,8 @@ package com.github.ymstmsys.secroidsearch;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -35,13 +37,28 @@ import android.widget.TextView;
  */
 public class MainAdapter extends BaseAdapter {
 
-    Context context;
+    private Context context;
 
-    LayoutInflater inflater;
+    private LayoutInflater inflater;
 
-    List<App> apps = new ArrayList<App>();
+    private List<App> apps = new ArrayList<App>();
 
-    ConcurrentMap<String, WeakReference<Drawable>> iconMap = new ConcurrentHashMap<String, WeakReference<Drawable>>();
+    private ConcurrentMap<String, WeakReference<Drawable>> iconMap = new ConcurrentHashMap<String, WeakReference<Drawable>>();
+
+    private static final Comparator<App> lastUpdateTimeComparator = new Comparator<App>() {
+        @Override
+        public int compare(App app1, App app2) {
+            long diff = app2.getLastUpdateTime() - app1.getLastUpdateTime();
+            return diff == 0 ? 0 : (diff > 0 ? 1 : -1);
+        }
+    };
+
+    private static final Comparator<App> appNameComparator = new Comparator<App>() {
+        @Override
+        public int compare(App app1, App app2) {
+            return app1.getAppName().compareTo(app2.getAppName());
+        }
+    };
 
     public MainAdapter(Context context) {
         this.context = context;
@@ -90,6 +107,24 @@ public class MainAdapter extends BaseAdapter {
         iconImage.setImageDrawable(iconDrawable);
 
         return convertView;
+    }
+
+    public void sort(SortType sortType) {
+        if (sortType == SortType.LAST_UPDATE_TIME) {
+            sortByLastUpdateTime();
+        } else if (sortType == SortType.APP_NAME) {
+            sortByAppName();
+        }
+    }
+
+    private void sortByLastUpdateTime() {
+        Collections.sort(apps, lastUpdateTimeComparator);
+        notifyDataSetChanged();
+    }
+
+    private void sortByAppName() {
+        Collections.sort(apps, appNameComparator);
+        notifyDataSetChanged();
     }
 
 }
